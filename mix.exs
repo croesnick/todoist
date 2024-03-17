@@ -38,11 +38,12 @@ defmodule Todoist.MixProject do
 
   defp deps do
     [
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:exvcr, "~> 0.15", only: :test},
       {:poison, "~> 5.0"},
       {:tesla, "~> 1.8"},
-      {:uuid, "~> 1.1"},
+      {:uuid, "~> 1.1"}
     ]
   end
 end
