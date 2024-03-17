@@ -1,4 +1,6 @@
 defmodule Todoist.Project do
+  @moduledoc false
+
   alias Todoist.Command
   alias Todoist.WriteRequest
 
@@ -28,7 +30,7 @@ defmodule Todoist.Project do
       request.commands
       [%{type: "project_add", uuid: ..., args: %{name: "my_new_project"}}]
   """
-  @spec add(Todoist.WriteRequest.t, binary, Keyword.t) :: Todoist.WriteRequest.t
+  @spec add(Todoist.WriteRequest.t(), binary, Keyword.t()) :: Todoist.WriteRequest.t()
   def add(request, name, options \\ []) do
     cmd = Command.build_from_opts("project_add", options)
     cmd = Command.put_arg(cmd, :name, name)
@@ -66,7 +68,8 @@ defmodule Todoist.Project do
       request.commands
       [%{type: "project_update", uuid: ..., args: %{id: "id", name: "new_title"}}]
   """
-  @spec update(Todoist.WriteRequest.t, binary | integer, Keyword.t) :: Todoist.WriteRequest.t
+  @spec update(Todoist.WriteRequest.t(), binary | integer, Keyword.t()) ::
+          Todoist.WriteRequest.t()
   def update(request, id, options \\ []) do
     cmd = Command.build_from_opts("project_update", options)
     cmd = Command.put_arg(cmd, :id, id)
@@ -91,7 +94,7 @@ defmodule Todoist.Project do
 
   def delete(request, ids, options \\ [])
 
-  @spec delete(Todoist.WriteRequest.t, list, Keyword.t) :: Todoist.WriteRequest.t
+  @spec delete(Todoist.WriteRequest.t(), list, Keyword.t()) :: Todoist.WriteRequest.t()
   def delete(request, ids, options) when is_list(ids) do
     cmd = Command.build_from_opts("project_delete", options)
     cmd = Command.put_arg(cmd, :ids, ids)
@@ -99,9 +102,9 @@ defmodule Todoist.Project do
     WriteRequest.add_command(request, cmd)
   end
 
-  @spec delete(Todoist.WriteRequest.t, integer | binary | atom, Keyword.t) :: Todoist.WriteRequest.t
+  @spec delete(Todoist.WriteRequest.t(), integer | binary | atom, Keyword.t()) ::
+          Todoist.WriteRequest.t()
   def delete(request, id, options), do: delete(request, [id], options)
-
 
   @doc """
   Adds an archive command structure to Request
@@ -120,7 +123,7 @@ defmodule Todoist.Project do
 
   def archive(request, ids, options \\ [])
 
-  @spec archive(Todoist.WriteRequest.t, list, Keyword.t) :: Todoist.WriteRequest.t
+  @spec archive(Todoist.WriteRequest.t(), list, Keyword.t()) :: Todoist.WriteRequest.t()
   def archive(request, ids, options) when is_list(ids) do
     cmd = Command.build_from_opts("project_archive", options)
     cmd = Command.put_arg(cmd, :ids, ids)
@@ -128,7 +131,8 @@ defmodule Todoist.Project do
     WriteRequest.add_command(request, cmd)
   end
 
-  @spec archive(Todoist.WriteRequest.t, integer | binary | atom, Keyword.t) :: Todoist.WriteRequest.t
+  @spec archive(Todoist.WriteRequest.t(), integer | binary | atom, Keyword.t()) ::
+          Todoist.WriteRequest.t()
   def archive(request, id, options), do: archive(request, [id], options)
 
   @doc """
@@ -148,7 +152,7 @@ defmodule Todoist.Project do
 
   def unarchive(request, ids, options \\ [])
 
-  @spec unarchive(Todoist.WriteRequest.t, list, Keyword.t) :: Todoist.WriteRequest.t
+  @spec unarchive(Todoist.WriteRequest.t(), list, Keyword.t()) :: Todoist.WriteRequest.t()
   def unarchive(request, ids, options) when is_list(ids) do
     cmd = Command.build_from_opts("project_unarchive", options)
     cmd = Command.put_arg(cmd, :ids, ids)
@@ -156,7 +160,8 @@ defmodule Todoist.Project do
     WriteRequest.add_command(request, cmd)
   end
 
-  @spec unarchive(Todoist.WriteRequest.t, integer | binary | atom, Keyword.t) :: Todoist.WriteRequest.t
+  @spec unarchive(Todoist.WriteRequest.t(), integer | binary | atom, Keyword.t()) ::
+          Todoist.WriteRequest.t()
   def unarchive(request, id, options), do: unarchive(request, [id], options)
 
   @doc """
@@ -169,7 +174,8 @@ defmodule Todoist.Project do
     generated if not passed.
   """
 
-  @spec update_orders_indents(Todoist.WriteRequest.t, map, Keyword.t) :: Todoist.WriteRequest.t
+  @spec update_orders_indents(Todoist.WriteRequest.t(), map, Keyword.t()) ::
+          Todoist.WriteRequest.t()
   def update_orders_indents(request, order_info, options \\ []) do
     cmd = Command.build_from_opts("project_update_orders_indents", options)
     cmd = Command.put_arg(cmd, "ids_to_orders_indents", order_info)

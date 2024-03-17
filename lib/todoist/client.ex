@@ -1,4 +1,6 @@
 defmodule Todoist.Client do
+  @moduledoc false
+
   use GenServer
   alias Todoist.Request
 
@@ -9,12 +11,18 @@ defmodule Todoist.Client do
   @type access_token :: binary
   @type t :: %__MODULE__{access_token: access_token}
 
-  @spec new(access_token) :: GenServer.on_start
+  @spec new(access_token) :: GenServer.on_start()
   def new(access_token, options \\ []) do
     GenServer.start_link(__MODULE__, %__MODULE__{access_token: access_token}, options)
   end
 
-  @spec get_token(pid) :: binary
+  @impl true
+  @spec init(binary()) :: {:ok, binary()}
+  def init(init_arg) do
+    {:ok, init_arg}
+  end
+
+  @spec get_token(pid()) :: binary()
   def get_token(client) do
     GenServer.call(client, :get_token)
   end
@@ -23,13 +31,16 @@ defmodule Todoist.Client do
     GenServer.call(client, {:do_request, request})
   end
 
+  @impl true
   def handle_call(:get_token, _from, state) do
     {:reply, state.access_token, state}
   end
 
   def handle_call({:do_request, request}, _from, state) do
-    request_query = request |> Map.put(:token, state.access_token)
-                            |> Request.parse
+    request_query =
+      request
+      |> Map.put(:token, state.access_token)
+      |> Request.parse()
 
     url = "#{@endpoint}?#{request_query}"
     response = Tesla.post(url, "data", headers: [{"content-type", "application/json"}])
