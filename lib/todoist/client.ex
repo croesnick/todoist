@@ -6,7 +6,8 @@ defmodule Todoist.Client do
 
   defstruct access_token: nil
 
-  @endpoint "https://todoist.com/API/v7/sync"
+  # Developer documentation: https://developer.todoist.com/sync/v9/#overview
+  @endpoint "https://api.todoist.com/sync/v9/sync"
 
   @type access_token :: binary
   @type t :: %__MODULE__{access_token: access_token}
