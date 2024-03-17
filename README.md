@@ -1,4 +1,5 @@
 # Todoist
+
 [![Build Status](https://travis-ci.org/nandosousafr/todoist.svg?branch=master)](https://travis-ci.org/nandosousafr/todoist)
 
 Simple Elixir wrapper for the [Todoist API](http://developer.todoist.com)
@@ -21,7 +22,8 @@ If [available in Hex](https://hexdocs.pm/todoist/0.0.1), the package can be inst
 
 ## Usage
 
-### Sync 
+### Sync
+
 ```ex
 {:ok, client} = Todoist.Client.new("<YOUR_ACCESS_TOKEN>")
 request = Todoist.ReadRequest(resource_types: ["projects"])
